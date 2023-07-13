@@ -25,6 +25,7 @@ function IterationComponent() {
               ];
   
   const result2 = list.map( ({title, id}) => <option key={id}>{title}</option> )
+  /* const result2 = list.map ( ({item}) => <option key={item.id}>{item.title}</option>) */
 
   console.log(result);
 
