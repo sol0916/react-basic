@@ -5,7 +5,7 @@ const IterationComponentQ2 = () => {
     //1 - select는 컴포넌트반복으로 option태그를 생성합니다.
     const select = ['HTML', 'Javascript', 'CSS', 'Java', 'Oracle', 'Mysql'];
 
-    const option = select.map( (select) => <option key={select}>{select}</option>)
+    const newSelect = select.map( (item, index) => <option key={index}>{item}</option>)
 
     //2 - 아래 데이터는 state로 관리하고 화면에 li태그로 반복해주세요 .
     const data = [
@@ -18,42 +18,47 @@ const IterationComponentQ2 = () => {
         {id: 7, type: 'HTML', teacher: 'coding404'},
     ];
 
-    const list = data.map( item => <li key={item}>{item.type} {item.teacher}</li>)
+    const[list, setList] = useState(data); //목록값
+    const[search, setSearch] = useState(''); //input값
 
-
+    const newList = list.map( item => <li key={item.id}>{item.type} {item.teacher}</li>)
 
     //3 - 셀렉트박스가 체인지되면 이벤트객체를 활용해서 선택된 값만 필터링해주세요.
     const handleChange = (e) => {
+     
+     const newList = data.filter(item => item.type === e.target.value)  
 
-      console.log(e.target.value);
-      console.log(data.type);
+     setList(newList);
 
-      if(e.target.value) {
-        const newList = data.map( item => <li key={item}></li>)
-      }
+    }
 
+	  //4 - 검색기능 (input태그의 값이 변경되면 핸들링 - 대소문자 구문 x - 문자열 다루기 필요 contains toorcase?)
+    const handleClick = () => {
 
+      let newList = data.filter( item => item.type.toLowerCase().includes(search) || 
+                           item.teacher.includes(search)
+                 );
+      setList(newList);
     }
 
 
 
-	  //4 - 검색기능 (input태그의 값이 변경되면 핸들링 - 대소문자 구문 x - 문자열 다루기 필요 contains toorcase?)
 
     return (
         <div>
 			<hr/>
             <h3>실습</h3>
-            Search: <input type="text" />
-            <button >검색</button>
+            Search: <input type="text" onChange={e => setSearch(e.target.value)} value={search}/>
+            <button onClick={handleClick}>검색</button>
 
             <br/>
             
 			과목찾기:
             <select onChange={handleChange}>
-               {option} 
+               {newSelect} 
             </select>
             <ul>
-              {list}             
+              {newList}             
             </ul>
         </div>
     )
